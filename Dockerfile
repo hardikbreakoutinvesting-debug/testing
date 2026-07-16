@@ -1,36 +1,43 @@
-# ── Stage 1: builder ─────────────────────────────────────────────────────────
+# ── Stage 1: dependency builder ───────────────────────────────────────────────
 FROM python:3.14-slim AS builder
 
 WORKDIR /app
 
-# Install dependencies into an isolated prefix so we can copy only them later
 COPY requirements.txt .
 RUN pip install --upgrade pip \
     && pip install --prefix=/install --no-cache-dir -r requirements.txt
 
 
-# ── Stage 2: runtime ─────────────────────────────────────────────────────────
+# ── Stage 2: Apache + mod_wsgi runtime ────────────────────────────────────────
 FROM python:3.14-slim AS runtime
 
-# Security: run as non-root user
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+# Install Apache2 and mod_wsgi for Python 3
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        apache2 \
+        libapache2-mod-wsgi-py3 && \
+    rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-
-# Copy installed packages from builder stage
+# Copy Python packages from builder
 COPY --from=builder /install /usr/local
 
-# Copy application source
-COPY templates/ ./templates/
+# ── App lives here (also the volume mount point used in CD pipeline) ──────────
+WORKDIR /var/www/calculator-app
+
+COPY templates/  ./templates/
 COPY calculator/ ./calculator/
-COPY app.py .
+COPY app.py      ./app.py
+COPY wsgi.py     ./wsgi.py
 
-# Switch to non-root user
-USER appuser
+# ── Apache configuration ───────────────────────────────────────────────────────
+COPY apache/calculator.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod wsgi headers && \
+    a2dissite 000-default 2>/dev/null || true && \
+    a2ensite  000-default
 
-# Expose Flask port
-EXPOSE 9000
+# Apache runs as www-data; grant read access to app files
+RUN chown -R www-data:www-data /var/www/calculator-app
 
-# Use gunicorn for production
-ENV FLASK_APP=app.py
-CMD ["gunicorn", "--bind", "0.0.0.0:9000", "--workers", "2", "--timeout", "60", "app:app"]
+EXPOSE 80
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
