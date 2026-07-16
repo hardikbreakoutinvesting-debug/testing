@@ -5,14 +5,20 @@ Unit tests for calculator/operations.py
 
 import pytest
 from calculator.operations import (
-    add, subtract, multiply, divide,
-    power, modulo, calculate, CalculatorError,
+    add,
+    subtract,
+    multiply,
+    divide,
+    power,
+    modulo,
+    calculate,
+    CalculatorError,
 )
-
 
 # ---------------------------------------------------------------------------
 # add
 # ---------------------------------------------------------------------------
+
 
 class TestAdd:
     def test_add_positive(self):
@@ -32,6 +38,7 @@ class TestAdd:
 # subtract
 # ---------------------------------------------------------------------------
 
+
 class TestSubtract:
     def test_subtract_positive(self):
         assert subtract(10, 4) == 6
@@ -46,6 +53,7 @@ class TestSubtract:
 # ---------------------------------------------------------------------------
 # multiply
 # ---------------------------------------------------------------------------
+
 
 class TestMultiply:
     def test_multiply_positive(self):
@@ -64,6 +72,7 @@ class TestMultiply:
 # ---------------------------------------------------------------------------
 # divide
 # ---------------------------------------------------------------------------
+
 
 class TestDivide:
     def test_divide_positive(self):
@@ -84,6 +93,7 @@ class TestDivide:
 # power
 # ---------------------------------------------------------------------------
 
+
 class TestPower:
     def test_power_positive(self):
         assert power(2, 10) == 1024
@@ -102,6 +112,7 @@ class TestPower:
 # modulo
 # ---------------------------------------------------------------------------
 
+
 class TestModulo:
     def test_modulo_positive(self):
         assert modulo(10, 3) == 1
@@ -117,6 +128,7 @@ class TestModulo:
 # ---------------------------------------------------------------------------
 # calculate (dispatcher)
 # ---------------------------------------------------------------------------
+
 
 class TestCalculate:
     def test_dispatch_add(self):

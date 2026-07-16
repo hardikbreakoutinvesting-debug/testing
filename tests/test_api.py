@@ -19,6 +19,7 @@ def client():
 # GET /health
 # ---------------------------------------------------------------------------
 
+
 class TestHealth:
     def test_health_returns_200(self, client):
         response = client.get("/health")
@@ -32,6 +33,7 @@ class TestHealth:
 # ---------------------------------------------------------------------------
 # GET /operations
 # ---------------------------------------------------------------------------
+
 
 class TestListOperations:
     def test_operations_returns_200(self, client):
@@ -48,6 +50,7 @@ class TestListOperations:
 # ---------------------------------------------------------------------------
 # POST /calculate – happy-path cases
 # ---------------------------------------------------------------------------
+
 
 class TestCalculateSuccess:
     def _post(self, client, payload):
@@ -95,13 +98,13 @@ class TestCalculateSuccess:
 # POST /calculate – error cases
 # ---------------------------------------------------------------------------
 
+
 class TestCalculateErrors:
     def _post(self, client, payload):
         return client.post("/calculate", json=payload)
 
     def test_missing_body_returns_400(self, client):
-        res = client.post("/calculate", data="not json",
-                          content_type="text/plain")
+        res = client.post("/calculate", data="not json", content_type="text/plain")
         assert res.status_code == 400
 
     def test_missing_operation_field(self, client):

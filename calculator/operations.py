@@ -6,6 +6,7 @@ Core arithmetic operations for the calculator app.
 
 class CalculatorError(Exception):
     """Custom exception for calculator errors."""
+
     pass
 
 
@@ -38,7 +39,7 @@ def divide(a: float, b: float) -> float:
 
 def power(base: float, exponent: float) -> float:
     """Return base raised to the power of exponent."""
-    return base ** exponent
+    return base**exponent
 
 
 def modulo(a: float, b: float) -> float:
@@ -55,12 +56,12 @@ def modulo(a: float, b: float) -> float:
 
 # Map operation names to functions for easy API dispatch
 OPERATIONS = {
-    "add":      add,
+    "add": add,
     "subtract": subtract,
     "multiply": multiply,
-    "divide":   divide,
-    "power":    power,
-    "modulo":   modulo,
+    "divide": divide,
+    "power": power,
+    "modulo": modulo,
 }
 
 

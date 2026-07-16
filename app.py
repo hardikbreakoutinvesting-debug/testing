@@ -18,6 +18,7 @@ app = Flask(__name__)
 # Routes
 # ---------------------------------------------------------------------------
 
+
 @app.route("/health", methods=["GET"])
 def health():
     """Simple health-check endpoint."""
@@ -73,12 +74,17 @@ def calculate_endpoint():
     except CalculatorError as exc:
         return jsonify({"error": str(exc)}), 400
 
-    return jsonify({
-        "operation": operation,
-        "a": a,
-        "b": b,
-        "result": result,
-    }), 200
+    return (
+        jsonify(
+            {
+                "operation": operation,
+                "a": a,
+                "b": b,
+                "result": result,
+            }
+        ),
+        200,
+    )
 
 
 # ---------------------------------------------------------------------------
