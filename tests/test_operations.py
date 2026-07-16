@@ -16,7 +16,7 @@ from calculator.operations import (
 
 class TestAdd:
     def test_add_positive(self):
-        assert add(3, 5) == 7
+        assert add(3, 5) == 8
 
     def test_add_negative(self):
         assert add(-1, -2) == -3

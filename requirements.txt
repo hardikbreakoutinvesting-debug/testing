@@ -1,2 +1,14 @@
+# App
 flask>=3.0.0
+
+# Testing (ci.yml)
 pytest>=8.0.0
+
+# Code Quality (code-quality.yml)
+black>=24.0.0
+isort>=5.13.0
+flake8>=7.0.0
+
+# Security Scanning (security-scan.yml)
+safety>=3.0.0
+bandit>=1.7.0
