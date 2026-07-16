@@ -8,8 +8,9 @@ Endpoints:
   GET  /health      – health check
 """
 
-from flask import Flask, request, jsonify
-from calculator.operations import calculate, CalculatorError, OPERATIONS
+from flask import Flask, jsonify, request
+
+from calculator.operations import OPERATIONS, CalculatorError, calculate
 
 app = Flask(__name__)
 

@@ -4,6 +4,7 @@ Integration tests for the Flask API endpoints in app.py
 """
 
 import pytest
+
 from app import app
 
 

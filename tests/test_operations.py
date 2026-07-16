@@ -4,15 +4,16 @@ Unit tests for calculator/operations.py
 """
 
 import pytest
+
 from calculator.operations import (
-    add,
-    subtract,
-    multiply,
-    divide,
-    power,
-    modulo,
-    calculate,
     CalculatorError,
+    add,
+    calculate,
+    divide,
+    modulo,
+    multiply,
+    power,
+    subtract,
 )
 
 # ---------------------------------------------------------------------------
