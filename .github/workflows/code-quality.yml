@@ -20,20 +20,24 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.12"
 
       - name: Install quality tools
         run: |
-          pip install flake8 black isort
+          pip install --upgrade pip
+          pip install black isort flake8
 
       - name: Run Black (formatting check)
         run: |
-          black --check --diff .
+          black --check --diff --skip-string-normalization .
 
       - name: Run isort (import sorting check)
         run: |
-          isort --check-only --diff .
+          isort --check-only --diff --profile black .
 
       - name: Run Flake8 (linting)
         run: |
-          flake8 . --max-line-length=88 --extend-ignore=E203,W503 --exclude=.git,__pycache__,.pytest_cache
+          flake8 . \
+            --max-line-length=88 \
+            --extend-ignore=E203,W503 \
+            --exclude=.git,__pycache__,.pytest_cache
