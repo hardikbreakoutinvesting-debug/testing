@@ -21,6 +21,7 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 
 # Copy application source
+COPY templates/ ./templates/
 COPY calculator/ ./calculator/
 COPY app.py .
 
@@ -30,5 +31,6 @@ USER appuser
 # Expose Flask port
 EXPOSE 9000
 
-# Use gunicorn for production (more robust than Flask dev server)
-CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=9000"]
+# Use gunicorn for production
+ENV FLASK_APP=app.py
+CMD ["gunicorn", "--bind", "0.0.0.0:9000", "--workers", "2", "--timeout", "60", "app:app"]

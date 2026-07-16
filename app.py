@@ -3,12 +3,13 @@ app.py
 Flask REST API for the calculator app.
 
 Endpoints:
-  POST /calculate   – perform a calculation
-  GET  /operations  – list supported operations
-  GET  /health      – health check
+  GET  /           – serve calculator UI
+  POST /calculate  – perform a calculation
+  GET  /operations – list supported operations
+  GET  /health     – health check
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request
 
 from calculator.operations import OPERATIONS, CalculatorError, calculate
 
@@ -18,6 +19,12 @@ app = Flask(__name__)
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
+
+
+@app.route("/", methods=["GET"])
+def index():
+    """Serve the calculator UI."""
+    return render_template("index.html")
 
 
 @app.route("/health", methods=["GET"])
@@ -39,7 +46,8 @@ def calculate_endpoint():
 
     Request body (JSON):
         {
-            "operation": "add" | "subtract" | "multiply" | "divide" | "power" | "modulo",
+            "operation": "add" | "subtract" | "multiply"
+                       | "divide" | "power" | "modulo",
             "a": <number>,
             "b": <number>
         }
